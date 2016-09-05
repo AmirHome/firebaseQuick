@@ -41,14 +41,25 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Button mButtonFoggy = (Button) findViewById(R.id.buttonFoggy);
         Button mButtonSunny = (Button) findViewById(R.id.buttonSunny);
+
         final TextView mTextCondition = (TextView) findViewById(R.id.textViewCondition);
+
+//        TelephonyManager manager=(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        String deviceid=manager.getDeviceId();
+
+        //Device Id is IMEI number
+
+        //Log.d("msg", "Device id"+deviceid);
+
+        //android.telephony.TelephonyManager.getDeviceId();
+
 
         mRef = new Firebase("https://eat2donate.firebaseio.com/");
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String newCondition = (String) dataSnapshot.getValue();
+                String newCondition = (String) dataSnapshot.child("title").getValue();
 
                 mTextCondition.setText(newCondition);
             }
@@ -61,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonFoggy.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                mRef.setValue("Foggy..");
+                mRef.child("title").setValue("Foggy..");
             }
         });
 
         mButtonSunny.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                mRef.setValue("Sunny..");
+                mRef.child("title").setValue("Sunny..");
             }
         });
     }
